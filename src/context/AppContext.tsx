@@ -4,7 +4,7 @@ import { Animal, HealthRecord } from '../types/types';
 interface AppContextType {
   animals: Animal[];
   healthRecords: HealthRecord[];
-  // Functions will be added later
+  addAnimal: (animal: Omit<Animal, 'id' | 'createdAt'>) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -43,10 +43,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
+  const addAnimal = (animalData: Omit<Animal, 'id' | 'createdAt'>) => {
+    const newAnimal: Animal = {
+      ...animalData,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    };
+    setAnimals(prev => [...prev, newAnimal]);
+  };
+
   return (
-    <AppContext.Provider value={{ animals, healthRecords }}>
+    <AppContext.Provider value={{ animals, healthRecords, addAnimal }}>
       {children}
     </AppContext.Provider>
   );
 };
-
