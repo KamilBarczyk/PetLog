@@ -43,6 +43,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
+  // Save animals to localStorage whenever animals state changes
+  useEffect(() => {
+    localStorage.setItem('animals', JSON.stringify(animals));
+  }, [animals]);
+
+  // Save healthRecords to localStorage whenever healthRecords state changes
+  useEffect(() => {
+    localStorage.setItem('healthRecords', JSON.stringify(healthRecords));
+  }, [healthRecords]);
+
   const addAnimal = (animalData: Omit<Animal, 'id' | 'createdAt'>) => {
     const newAnimal: Animal = {
       ...animalData,
