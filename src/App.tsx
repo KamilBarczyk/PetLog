@@ -1,11 +1,17 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import AnimalsListScreen from './screens/AnimalsListScreen';
+import AddAnimalScreen from './screens/AddAnimalScreen';
 
 const App = () => {
   return (
     <AppProvider>
-      <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-        <h1>PetLog</h1>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AnimalsListScreen />} />
+          <Route path="/add-animal" element={<AddAnimalScreen />} />
+        </Routes>
+      </BrowserRouter>
     </AppProvider>
   );
 };
