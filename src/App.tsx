@@ -1,10 +1,15 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import AnimalsListScreen from './screens/AnimalsListScreen';
 
 const App = () => {
   return (
     <AppProvider>
-      <AnimalsListScreen />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AnimalsListScreen />} />
+        </Routes>
+      </BrowserRouter>
     </AppProvider>
   );
 };
