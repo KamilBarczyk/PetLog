@@ -22,7 +22,9 @@ const AnimalsListScreen: React.FC = () => {
       <ul>
         {animals.map((animal) => (
           <li key={animal.id}>
-            <strong>{animal.name}</strong> - {animal.breed} ({animal.weight} kg)
+            <Link to={`/animal/${animal.id}`}>
+              <strong>{animal.name}</strong> - {animal.breed} ({animal.weight} kg)
+            </Link>
           </li>
         ))}
       </ul>
