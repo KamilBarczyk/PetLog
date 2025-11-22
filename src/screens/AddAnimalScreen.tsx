@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const AddAnimalScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -42,61 +46,68 @@ const AddAnimalScreen: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Add Animal</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{ marginLeft: "10px", padding: "5px" }}
-            />
-          </label>
-        </div>
-        <div style={{ marginTop: "10px" }}>
-          <label>
-            Breed:
-            <input
-              type="text"
-              value={breed}
-              onChange={(e) => setBreed(e.target.value)}
-              style={{ marginLeft: "10px", padding: "5px" }}
-            />
-          </label>
-        </div>
-        <div style={{ marginTop: "10px" }}>
-          <label>
-            Birth Date:
-            <input
-              type="date"
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              style={{ marginLeft: "10px", padding: "5px" }}
-            />
-          </label>
-        </div>
-        <div style={{ marginTop: "10px" }}>
-          <label>
-            Weight (kg):
-            <input
-              type="number"
-              step="0.1"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              style={{ marginLeft: "10px", padding: "5px" }}
-            />
-          </label>
-        </div>
-        <button type="submit" style={{ marginTop: "10px", padding: "5px 10px" }}>
-          Add
-        </button>
-      </form>
-      <button onClick={() => navigate('/')} style={{ marginTop: "10px" }}>
-        Cancel
-      </button>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
+      <div className="max-w-2xl mx-auto">
+        <Card>
+          <CardHeader>
+            <CardTitle>Add Animal</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter animal name"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="breed">Breed</Label>
+                <Input
+                  id="breed"
+                  type="text"
+                  value={breed}
+                  onChange={(e) => setBreed(e.target.value)}
+                  placeholder="Enter breed"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="birthDate">Birth Date</Label>
+                <Input
+                  id="birthDate"
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="weight">Weight (kg)</Label>
+                <Input
+                  id="weight"
+                  type="number"
+                  step="0.1"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  placeholder="Enter weight"
+                />
+              </div>
+              
+              <div className="flex gap-2 pt-4">
+                <Button type="submit">Add</Button>
+                <Button type="button" variant="outline" onClick={() => navigate('/')}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
