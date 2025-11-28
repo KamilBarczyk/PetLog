@@ -5,6 +5,7 @@ interface AppContextType {
   animals: Animal[];
   healthRecords: HealthRecord[];
   addAnimal: (animal: Omit<Animal, 'id' | 'createdAt'>) => void;
+  updateAnimal: (id: string, animal: Partial<Animal>) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -62,8 +63,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAnimals(prev => [...prev, newAnimal]);
   };
 
+  const updateAnimal = (id: string, updatedAnimal: Partial<Animal>) => {
+    setAnimals(prev => prev.map(animal => 
+      animal.id === id ? { ...animal, ...updatedAnimal } : animal
+    ));
+  };
+
   return (
-    <AppContext.Provider value={{ animals, healthRecords, addAnimal }}>
+    <AppContext.Provider value={{ animals, healthRecords, addAnimal, updateAnimal }}>
       {children}
     </AppContext.Provider>
   );
