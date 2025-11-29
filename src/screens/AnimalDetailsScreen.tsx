@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,10 +41,13 @@ const AnimalDetailsScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-4">
+        <div className="mb-4 flex gap-2">
           <Button variant="outline" onClick={() => navigate('/')}>
             ← Back
           </Button>
+          <Link to={`/edit-animal/${animal.id}`}>
+            <Button>Edit</Button>
+          </Link>
         </div>
         <Card>
           <CardHeader>
@@ -75,4 +78,3 @@ const AnimalDetailsScreen: React.FC = () => {
 };
 
 export default AnimalDetailsScreen;
-
