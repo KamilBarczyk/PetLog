@@ -6,6 +6,7 @@ interface AppContextType {
   healthRecords: HealthRecord[];
   addAnimal: (animal: Omit<Animal, 'id' | 'createdAt'>) => void;
   updateAnimal: (id: string, animal: Partial<Animal>) => void;
+  deleteAnimal: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -69,8 +70,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ));
   };
 
+  const deleteAnimal = (id: string) => {
+    setAnimals(prev => prev.filter(animal => animal.id !== id));
+    setHealthRecords(prev => prev.filter(record => record.animalId !== id));
+  };
+
   return (
-    <AppContext.Provider value={{ animals, healthRecords, addAnimal, updateAnimal }}>
+    <AppContext.Provider value={{ animals, healthRecords, addAnimal, updateAnimal, deleteAnimal }}>
       {children}
     </AppContext.Provider>
   );
