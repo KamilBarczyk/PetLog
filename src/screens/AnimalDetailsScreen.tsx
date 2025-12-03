@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const AnimalDetailsScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { animals } = useApp();
+  const { animals, deleteAnimal } = useApp();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const animal = animals.find(a => a.id === id);
 
@@ -38,6 +47,14 @@ const AnimalDetailsScreen: React.FC = () => {
       : age;
   };
 
+  const handleDelete = () => {
+    if (id) {
+      deleteAnimal(id);
+      setIsDeleteDialogOpen(false);
+      navigate('/');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
@@ -48,6 +65,30 @@ const AnimalDetailsScreen: React.FC = () => {
           <Link to={`/edit-animal/${animal.id}`}>
             <Button>Edit</Button>
           </Link>
+          <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+            Delete
+          </Button>
+          <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete {animal.name} and all associated health records.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="destructive" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
         <Card>
           <CardHeader>
