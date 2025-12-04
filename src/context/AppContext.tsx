@@ -7,6 +7,10 @@ interface AppContextType {
   addAnimal: (animal: Omit<Animal, 'id' | 'createdAt'>) => void;
   updateAnimal: (id: string, animal: Partial<Animal>) => void;
   deleteAnimal: (id: string) => void;
+  addHealthRecord: (record: Omit<HealthRecord, 'id' | 'createdAt'>) => void;
+  updateHealthRecord: (id: string, record: Partial<HealthRecord>) => void;
+  deleteHealthRecord: (id: string) => void;
+  getHealthRecordsByAnimalId: (animalId: string) => HealthRecord[];
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -75,8 +79,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setHealthRecords(prev => prev.filter(record => record.animalId !== id));
   };
 
+  const addHealthRecord = (recordData: Omit<HealthRecord, 'id' | 'createdAt'>) => {
+    const newRecord: HealthRecord = {
+      ...recordData,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    };
+    setHealthRecords(prev => [...prev, newRecord]);
+  };
+
+  const updateHealthRecord = (id: string, updatedRecord: Partial<HealthRecord>) => {
+    setHealthRecords(prev => prev.map(record =>
+      record.id === id ? { ...record, ...updatedRecord } : record
+    ));
+  };
+
+  const deleteHealthRecord = (id: string) => {
+    setHealthRecords(prev => prev.filter(record => record.id !== id));
+  };
+
+  const getHealthRecordsByAnimalId = (animalId: string): HealthRecord[] => {
+    return healthRecords.filter(record => record.animalId === animalId);
+  };
+
   return (
-    <AppContext.Provider value={{ animals, healthRecords, addAnimal, updateAnimal, deleteAnimal }}>
+    <AppContext.Provider value={{
+      animals,
+      healthRecords,
+      addAnimal,
+      updateAnimal,
+      deleteAnimal,
+      addHealthRecord,
+      updateHealthRecord,
+      deleteHealthRecord,
+      getHealthRecordsByAnimalId,
+    }}>
       {children}
     </AppContext.Provider>
   );
