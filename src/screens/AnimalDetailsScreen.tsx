@@ -65,6 +65,9 @@ const AnimalDetailsScreen: React.FC = () => {
           <Link to={`/edit-animal/${animal.id}`}>
             <Button>Edit</Button>
           </Link>
+          <Link to={`/animal/${animal.id}/health-records`}>
+            <Button variant="secondary">Health Records</Button>
+          </Link>
           <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
             Delete
           </Button>
