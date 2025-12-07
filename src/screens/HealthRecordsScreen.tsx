@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,6 +46,9 @@ const HealthRecordsScreen: React.FC = () => {
           <Button variant="outline" onClick={() => navigate(`/animal/${id}`)}>
             ← Back
           </Button>
+          <Link to={`/animal/${id}/add-health-record`}>
+            <Button>Add Health Record</Button>
+          </Link>
         </div>
         
         <Card className="mb-4">
