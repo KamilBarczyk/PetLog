@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { ArrowLeft, Plus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,10 +45,14 @@ const HealthRecordsScreen: React.FC = () => {
       <div className="max-w-2xl mx-auto">
         <div className="mb-4 flex gap-2">
           <Button variant="outline" onClick={() => navigate(`/animal/${id}`)}>
-            ← Back
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
           </Button>
           <Link to={`/animal/${id}/add-health-record`}>
-            <Button>Add Health Record</Button>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Health Record
+            </Button>
           </Link>
         </div>
         

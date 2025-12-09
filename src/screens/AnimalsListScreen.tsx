@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,7 +14,10 @@ const AnimalsListScreen: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-orange-800">My Animals</h1>
           <Link to="/add-animal">
-            <Button>Add Animal</Button>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Animal
+            </Button>
           </Link>
         </div>
 
@@ -23,7 +27,10 @@ const AnimalsListScreen: React.FC = () => {
               <h2 className="text-xl font-semibold text-gray-600 mb-2">No Animals</h2>
               <p className="text-gray-500 mb-4">Add your first animal to get started!</p>
               <Link to="/add-animal">
-                <Button>Add Animal</Button>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Animal
+                </Button>
               </Link>
             </CardContent>
           </Card>
