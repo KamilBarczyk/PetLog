@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,15 +61,23 @@ const AnimalDetailsScreen: React.FC = () => {
       <div className="max-w-2xl mx-auto">
         <div className="mb-4 flex gap-2">
           <Button variant="outline" onClick={() => navigate('/')}>
-            ← Back
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
           </Button>
           <Link to={`/edit-animal/${animal.id}`}>
-            <Button>Edit</Button>
+            <Button>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </Button>
           </Link>
           <Link to={`/animal/${animal.id}/health-records`}>
-            <Button variant="secondary">Health Records</Button>
+            <Button variant="secondary">
+              <Heart className="mr-2 h-4 w-4" />
+              Health Records
+            </Button>
           </Link>
           <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+            <Trash2 className="mr-2 h-4 w-4" />
             Delete
           </Button>
           <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

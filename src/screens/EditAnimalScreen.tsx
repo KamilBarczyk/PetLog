@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Save, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -115,12 +116,16 @@ const EditAnimalScreen: React.FC = () => {
               </div>
               
               <div className="flex gap-2 pt-4">
-                <Button type="submit">Save</Button>
+                <Button type="submit">
+                  <Save className="mr-2 h-4 w-4" />
+                  Save
+                </Button>
                 <Button 
                   type="button" 
                   variant="outline" 
                   onClick={() => id ? navigate(`/animal/${id}`) : navigate('/')}
                 >
+                  <X className="mr-2 h-4 w-4" />
                   Cancel
                 </Button>
               </div>

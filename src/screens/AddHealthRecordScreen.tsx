@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Plus, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -99,12 +100,16 @@ const AddHealthRecordScreen: React.FC = () => {
               </div>
               
               <div className="flex gap-2 pt-4">
-                <Button type="submit">Add</Button>
+                <Button type="submit">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add
+                </Button>
                 <Button 
                   type="button" 
                   variant="outline" 
                   onClick={() => id ? navigate(`/animal/${id}/health-records`) : navigate('/')}
                 >
+                  <X className="mr-2 h-4 w-4" />
                   Cancel
                 </Button>
               </div>
