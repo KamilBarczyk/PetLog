@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { Toaster } from '@/components/ui/sonner';
 import AnimalsListScreen from './screens/AnimalsListScreen';
 import AddAnimalScreen from './screens/AddAnimalScreen';
 import AnimalDetailsScreen from './screens/AnimalDetailsScreen';
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/animal/:id/health-records" element={<HealthRecordsScreen />} />
           <Route path="/animal/:id/add-health-record" element={<AddHealthRecordScreen />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </AppProvider>
   );

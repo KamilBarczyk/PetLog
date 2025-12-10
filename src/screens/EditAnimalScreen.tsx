@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Save, X } from 'lucide-react';
+import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,20 +35,20 @@ const EditAnimalScreen: React.FC = () => {
     
     // Basic validation
     if (!name.trim()) {
-      alert('Name is required');
+      toast.error('Name is required');
       return;
     }
     if (!breed.trim()) {
-      alert('Breed is required');
+      toast.error('Breed is required');
       return;
     }
     if (!birthDate) {
-      alert('Birth date is required');
+      toast.error('Birth date is required');
       return;
     }
     const weightNum = parseFloat(weight);
     if (isNaN(weightNum) || weightNum <= 0) {
-      alert('Weight must be a positive number');
+      toast.error('Weight must be a positive number');
       return;
     }
 
@@ -58,6 +59,7 @@ const EditAnimalScreen: React.FC = () => {
         birthDate: birthDate,
         weight: weightNum,
       });
+      toast.success('Animal updated successfully!');
       navigate(`/animal/${id}`);
     }
   };

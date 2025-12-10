@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,6 +53,7 @@ const AnimalDetailsScreen: React.FC = () => {
     if (id) {
       deleteAnimal(id);
       setIsDeleteDialogOpen(false);
+      toast.success(`${animal.name} has been deleted successfully`);
       navigate('/');
     }
   };
