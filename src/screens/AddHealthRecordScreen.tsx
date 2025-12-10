@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Plus, X } from 'lucide-react';
+import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,11 +42,11 @@ const AddHealthRecordScreen: React.FC = () => {
     
     // Basic validation
     if (!title.trim()) {
-      alert('Title is required');
+      toast.error('Title is required');
       return;
     }
     if (!date) {
-      alert('Date is required');
+      toast.error('Date is required');
       return;
     }
 
@@ -55,6 +56,7 @@ const AddHealthRecordScreen: React.FC = () => {
       date: date,
       notes: notes.trim() || undefined,
     });
+    toast.success('Health record added successfully!');
     navigate(`/animal/${id}/health-records`);
   };
 
