@@ -4,6 +4,7 @@ import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
@@ -105,17 +106,16 @@ const AnimalDetailsScreen: React.FC = () => {
           </Dialog>
         </div>
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-3xl">{animal.name}</CardTitle>
+            <Badge variant="secondary" className="text-base px-3 py-1">
+              {calculateAge(animal.birthDate)} years
+            </Badge>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm text-gray-600 mb-1">Breed</p>
               <p className="text-lg font-semibold">{animal.breed}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Age</p>
-              <p className="text-lg font-semibold">{calculateAge(animal.birthDate)} years</p>
             </div>
             <div>
               <p className="text-sm text-gray-600 mb-1">Birth Date</p>
