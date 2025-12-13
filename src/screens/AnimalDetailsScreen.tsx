@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Heart, Trash2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import {
 const AnimalDetailsScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { animals, deleteAnimal } = useApp();
+  const { animals, deleteAnimal, getHealthRecordsByAnimalId } = useApp();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const animal = animals.find(a => a.id === id);
@@ -59,6 +59,19 @@ const AnimalDetailsScreen: React.FC = () => {
     }
   };
 
+  // Get last 3 health records sorted by date (newest first)
+  const recentHealthRecords = useMemo(() => {
+    if (!id) return [];
+    const records = getHealthRecordsByAnimalId(id);
+    return records
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      })
+      .slice(0, 3);
+  }, [id, getHealthRecordsByAnimalId]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
@@ -71,12 +84,6 @@ const AnimalDetailsScreen: React.FC = () => {
             <Button>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </Button>
-          </Link>
-          <Link to={`/animal/${animal.id}/health-records`}>
-            <Button variant="secondary">
-              <Heart className="mr-2 h-4 w-4" />
-              Health Records
             </Button>
           </Link>
           <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
@@ -125,6 +132,61 @@ const AnimalDetailsScreen: React.FC = () => {
               <p className="text-sm text-gray-600 mb-1">Weight</p>
               <p className="text-lg font-semibold">{animal.weight} kg</p>
             </div>
+          </CardContent>
+        </Card>
+        <Card className="mt-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardTitle className="text-2xl">Recent Health Records</CardTitle>
+            <Link to={`/animal/${animal.id}/add-health-record`}>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Health Record
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {recentHealthRecords.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-500 mb-4">No health records found for this animal.</p>
+                <Link to={`/animal/${animal.id}/add-health-record`}>
+                  <Button variant="outline">
+                    <Heart className="mr-2 h-4 w-4" />
+                    Add First Health Record
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {recentHealthRecords.map((record) => (
+                  <Card key={record.id} className="bg-gray-50">
+                    <CardHeader>
+                      <CardTitle className="text-lg">{record.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Date</p>
+                        <p className="text-base font-semibold">
+                          {new Date(record.date).toLocaleDateString('en-US')}
+                        </p>
+                      </div>
+                      {record.notes && (
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Notes</p>
+                          <p className="text-base">{record.notes}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+                <div className="pt-2">
+                  <Link to={`/animal/${animal.id}/health-records`}>
+                    <Button variant="outline" className="w-full">
+                      View All Health Records
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
