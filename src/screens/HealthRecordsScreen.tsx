@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { ArrowLeft, Plus, Edit } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -73,8 +73,14 @@ const HealthRecordsScreen: React.FC = () => {
           <div className="space-y-4">
             {healthRecords.map((record) => (
               <Card key={record.id}>
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0">
                   <CardTitle>{record.title}</CardTitle>
+                  <Link to={`/animal/${id}/edit-health-record/${record.id}`}>
+                    <Button variant="outline" size="sm">
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
+                  </Link>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div>

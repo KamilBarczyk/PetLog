@@ -7,6 +7,7 @@ import AnimalDetailsScreen from './screens/AnimalDetailsScreen';
 import EditAnimalScreen from './screens/EditAnimalScreen';
 import HealthRecordsScreen from './screens/HealthRecordsScreen';
 import AddHealthRecordScreen from './screens/AddHealthRecordScreen';
+import EditHealthRecordScreen from './screens/EditHealthRecordScreen';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/edit-animal/:id" element={<EditAnimalScreen />} />
           <Route path="/animal/:id/health-records" element={<HealthRecordsScreen />} />
           <Route path="/animal/:id/add-health-record" element={<AddHealthRecordScreen />} />
+          <Route path="/animal/:id/edit-health-record/:recordId" element={<EditHealthRecordScreen />} />
         </Routes>
         <Toaster />
       </BrowserRouter>
