@@ -1,14 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Search } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const HealthRecordsScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { animals, getHealthRecordsByAnimalId } = useApp();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const animal = animals.find(a => a.id === id);
 
@@ -22,6 +25,18 @@ const HealthRecordsScreen: React.FC = () => {
       return dateB - dateA;
     });
   }, [id, getHealthRecordsByAnimalId]);
+
+  // Filter health records by title or notes
+  const filteredHealthRecords = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return healthRecords;
+    }
+    const query = searchQuery.toLowerCase().trim();
+    return healthRecords.filter(record => 
+      record.title.toLowerCase().includes(query) ||
+      (record.notes && record.notes.toLowerCase().includes(query))
+    );
+  }, [healthRecords, searchQuery]);
 
   if (!animal) {
     return (
@@ -62,6 +77,27 @@ const HealthRecordsScreen: React.FC = () => {
           </CardHeader>
         </Card>
 
+        {healthRecords.length > 0 && (
+          <Card className="mb-4">
+            <CardContent className="pt-6">
+              <div className="space-y-2">
+                <Label htmlFor="search">Search Health Records</Label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="search"
+                    type="text"
+                    placeholder="Search by title or notes..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {healthRecords.length === 0 ? (
           <Card className="text-center py-12">
             <CardContent>
@@ -69,9 +105,16 @@ const HealthRecordsScreen: React.FC = () => {
               <p className="text-gray-500">No health records found for this animal.</p>
             </CardContent>
           </Card>
+        ) : filteredHealthRecords.length === 0 ? (
+          <Card className="text-center py-12">
+            <CardContent>
+              <h2 className="text-xl font-semibold text-gray-600 mb-2">No Results</h2>
+              <p className="text-gray-500">No health records found matching "{searchQuery}"</p>
+            </CardContent>
+          </Card>
         ) : (
           <div className="space-y-4">
-            {healthRecords.map((record) => (
+            {filteredHealthRecords.map((record) => (
               <Card key={record.id}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
                   <CardTitle>{record.title}</CardTitle>
