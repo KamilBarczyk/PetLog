@@ -1,17 +1,28 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Search } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Search, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const HealthRecordsScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { animals, getHealthRecordsByAnimalId } = useApp();
+  const { animals, getHealthRecordsByAnimalId, deleteHealthRecord } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [recordToDelete, setRecordToDelete] = useState<string | null>(null);
 
   const animal = animals.find(a => a.id === id);
 
@@ -37,6 +48,25 @@ const HealthRecordsScreen: React.FC = () => {
       (record.notes && record.notes.toLowerCase().includes(query))
     );
   }, [healthRecords, searchQuery]);
+
+  const handleDeleteClick = (recordId: string) => {
+    setRecordToDelete(recordId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (recordToDelete) {
+      deleteHealthRecord(recordToDelete);
+      toast.success('Health record deleted successfully!');
+      setDeleteDialogOpen(false);
+      setRecordToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setRecordToDelete(null);
+  };
 
   if (!animal) {
     return (
@@ -118,12 +148,22 @@ const HealthRecordsScreen: React.FC = () => {
               <Card key={record.id}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
                   <CardTitle>{record.title}</CardTitle>
-                  <Link to={`/animal/${id}/edit-health-record/${record.id}`}>
-                    <Button variant="outline" size="sm">
-                      <Edit className="mr-2 h-4 w-4" />
-                      Edit
+                  <div className="flex gap-2">
+                    <Link to={`/animal/${id}/edit-health-record/${record.id}`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="mr-2 h-4 w-4" />
+                        Edit
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="destructive" 
+                      size="sm"
+                      onClick={() => handleDeleteClick(record.id)}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
                     </Button>
-                  </Link>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div>
@@ -143,6 +183,25 @@ const HealthRecordsScreen: React.FC = () => {
             ))}
           </div>
         )}
+
+        <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Health Record</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this health record? This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={handleDeleteCancel}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={handleDeleteConfirm}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
