@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Edit, Heart, Trash2, Plus } from 'lucide-react';
+import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -137,12 +137,14 @@ const AnimalDetailsScreen: React.FC = () => {
         <Card className="mt-4">
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-2xl">Recent Health Records</CardTitle>
-            <Link to={`/animal/${animal.id}/add-health-record`}>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Health Record
-              </Button>
-            </Link>
+            {recentHealthRecords.length > 0 && (
+              <Link to={`/animal/${animal.id}/add-health-record`}>
+                <Button variant="outline">
+                  <Heart className="mr-2 h-4 w-4" />
+                  Add Health Record
+                </Button>
+              </Link>
+            )}
           </CardHeader>
           <CardContent>
             {recentHealthRecords.length === 0 ? (
