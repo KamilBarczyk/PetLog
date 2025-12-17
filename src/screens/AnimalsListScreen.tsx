@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { PawPrint } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,12 +24,14 @@ const AnimalsListScreen: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-orange-800">My Animals</h1>
-          <Link to="/add-animal">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Animal
-            </Button>
-          </Link>
+          {animals.length > 0 && (
+            <Link to="/add-animal">
+              <Button variant="outline">
+                <PawPrint className="mr-2 h-4 w-4" />
+                Add Animal
+              </Button>
+            </Link>
+          )}
         </div>
 
         {animals.length === 0 ? (
@@ -38,9 +40,9 @@ const AnimalsListScreen: React.FC = () => {
               <h2 className="text-xl font-semibold text-gray-600 mb-2">No Animals</h2>
               <p className="text-gray-500 mb-4">Add your first animal to get started!</p>
               <Link to="/add-animal">
-                <Button>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add Animal
+                <Button variant="outline">
+                  <PawPrint className="mr-2 h-4 w-4" />
+                  Add First Animal
                 </Button>
               </Link>
             </CardContent>

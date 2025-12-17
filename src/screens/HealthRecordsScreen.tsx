@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, Heart, Edit, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -94,8 +94,8 @@ const HealthRecordsScreen: React.FC = () => {
             Back
           </Button>
           <Link to={`/animal/${id}/add-health-record`}>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
+            <Button variant="outline">
+              <Heart className="mr-2 h-4 w-4" />
               Add Health Record
             </Button>
           </Link>
