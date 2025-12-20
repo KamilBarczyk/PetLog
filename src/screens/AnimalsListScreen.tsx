@@ -19,6 +19,14 @@ const AnimalsListScreen: React.FC = () => {
       : age;
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-4xl mx-auto">
@@ -49,20 +57,36 @@ const AnimalsListScreen: React.FC = () => {
           </Card>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {animals.map((animal) => (
-              <Link key={animal.id} to={`/animal/${animal.id}`}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer relative">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle>{animal.name}</CardTitle>
-                    <Badge variant="secondary">{calculateAge(animal.birthDate)} years</Badge>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <p className="text-sm text-gray-600">Breed: {animal.breed}</p>
-                    <p className="text-sm text-gray-600">Weight: {animal.weight} kg</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {animals.map((animal) => {
+              const age = calculateAge(animal.birthDate);
+              const ageText = age === 1 ? 'year' : 'years';
+              return (
+                <Link key={animal.id} to={`/animal/${animal.id}`}>
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer relative border-l-4 border-l-orange-500">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-xl font-bold text-orange-800">{animal.name}</CardTitle>
+                      <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+                        {age} {ageText}
+                      </Badge>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Breed:</span>
+                        <span className="text-sm font-medium">{animal.breed}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Weight:</span>
+                        <span className="text-sm font-medium">{animal.weight} kg</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Birth Date:</span>
+                        <span className="text-sm font-medium">{formatDate(animal.birthDate)}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>
