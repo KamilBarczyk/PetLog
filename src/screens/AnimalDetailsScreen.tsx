@@ -50,6 +50,14 @@ const AnimalDetailsScreen: React.FC = () => {
       : age;
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   const handleDelete = () => {
     if (id) {
       deleteAnimal(id);
@@ -75,21 +83,23 @@ const AnimalDetailsScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-4 flex gap-2">
+        <div className="mb-4 flex justify-between items-center">
           <Button variant="outline" onClick={() => navigate('/')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
-          <Link to={`/edit-animal/${animal.id}`}>
-            <Button>
-              <Edit className="mr-2 h-4 w-4" />
-              Edit
+          <div className="flex gap-2">
+            <Link to={`/edit-animal/${animal.id}`}>
+              <Button variant="outline">
+                <Edit className="mr-2 h-4 w-4" />
+                Edit
+              </Button>
+            </Link>
+            <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete
             </Button>
-          </Link>
-          <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete
-          </Button>
+          </div>
           <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
             <DialogContent>
               <DialogHeader>
@@ -112,31 +122,31 @@ const AnimalDetailsScreen: React.FC = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <Card>
+        <Card className="border-l-4 border-l-orange-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-3xl">{animal.name}</CardTitle>
-            <Badge variant="secondary" className="text-base px-3 py-1">
+            <CardTitle className="text-3xl font-bold text-orange-800">{animal.name}</CardTitle>
+            <Badge variant="secondary" className="bg-orange-100 text-orange-800 text-base px-3 py-1">
               {calculateAge(animal.birthDate)} years
             </Badge>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Breed</p>
-              <p className="text-lg font-semibold">{animal.breed}</p>
+          <CardContent className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Breed:</span>
+              <span className="text-sm font-medium">{animal.breed}</span>
             </div>
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Birth Date</p>
-              <p className="text-lg font-semibold">{new Date(animal.birthDate).toLocaleDateString('en-US')}</p>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Weight:</span>
+              <span className="text-sm font-medium">{animal.weight} kg</span>
             </div>
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Weight</p>
-              <p className="text-lg font-semibold">{animal.weight} kg</p>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Birth Date:</span>
+              <span className="text-sm font-medium">{formatDate(animal.birthDate)}</span>
             </div>
           </CardContent>
         </Card>
         <Card className="mt-4">
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-2xl">Recent Health Records</CardTitle>
+            <CardTitle className="text-2xl font-bold text-orange-800">Health Records</CardTitle>
             {recentHealthRecords.length > 0 && (
               <Link to={`/animal/${animal.id}/add-health-record`}>
                 <Button variant="outline">
@@ -162,19 +172,17 @@ const AnimalDetailsScreen: React.FC = () => {
                 {recentHealthRecords.map((record) => (
                   <Card key={record.id} className="bg-gray-50">
                     <CardHeader>
-                      <CardTitle className="text-lg">{record.title}</CardTitle>
+                      <CardTitle className="text-lg font-bold text-orange-800">{record.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                      <div>
-                        <p className="text-sm text-gray-600 mb-1">Date</p>
-                        <p className="text-base font-semibold">
-                          {new Date(record.date).toLocaleDateString('en-US')}
-                        </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Date:</span>
+                        <span className="text-sm font-medium">{formatDate(record.date)}</span>
                       </div>
                       {record.notes && (
                         <div>
-                          <p className="text-sm text-gray-600 mb-1">Notes</p>
-                          <p className="text-base">{record.notes}</p>
+                          <p className="text-sm text-gray-600 mb-1">Notes:</p>
+                          <p className="text-sm">{record.notes}</p>
                         </div>
                       )}
                     </CardContent>
