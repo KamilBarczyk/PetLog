@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Edit, Heart, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Trash2, FileText, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -146,11 +146,14 @@ const AnimalDetailsScreen: React.FC = () => {
         </Card>
         <Card className="mt-4">
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-2xl font-bold text-orange-800">Health Records</CardTitle>
+            <CardTitle className="text-2xl font-bold text-orange-800 flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Health Records
+            </CardTitle>
             {recentHealthRecords.length > 0 && (
               <Link to={`/animal/${animal.id}/add-health-record`}>
-                <Button variant="outline">
-                  <Heart className="mr-2 h-4 w-4" />
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
                   Add Health Record
                 </Button>
               </Link>
@@ -162,31 +165,29 @@ const AnimalDetailsScreen: React.FC = () => {
                 <p className="text-gray-500 mb-4">No health records found for this animal.</p>
                 <Link to={`/animal/${animal.id}/add-health-record`}>
                   <Button variant="outline">
-                    <Heart className="mr-2 h-4 w-4" />
+                    <Plus className="mr-2 h-4 w-4" />
                     Add First Health Record
                   </Button>
                 </Link>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {recentHealthRecords.map((record) => (
-                  <Card key={record.id} className="bg-gray-50">
-                    <CardHeader>
-                      <CardTitle className="text-lg font-bold text-orange-800">{record.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Date:</span>
-                        <span className="text-sm font-medium">{formatDate(record.date)}</span>
-                      </div>
-                      {record.notes && (
-                        <div>
-                          <p className="text-sm text-gray-600 mb-1">Notes:</p>
-                          <p className="text-sm">{record.notes}</p>
+                  <Link key={record.id} to={`/animal/${animal.id}/edit-health-record/${record.id}`}>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-800">{record.title}</h4>
+                            <p className="text-sm text-gray-600 mt-2">{formatDate(record.date)}</p>
+                            {record.notes && (
+                              <p className="text-sm text-gray-500 mt-2">{record.notes}</p>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
                 <div className="pt-2">
                   <Link to={`/animal/${animal.id}/health-records`}>
