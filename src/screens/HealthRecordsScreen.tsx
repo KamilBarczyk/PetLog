@@ -156,8 +156,8 @@ const HealthRecordsScreen: React.FC = () => {
         ) : (
           <div className="space-y-3">
             {filteredHealthRecords.map((record) => (
-              <Link key={record.id} to={`/animal/${id}/edit-health-record/${record.id}`}>
-                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <Card key={record.id} className="hover:shadow-md transition-shadow relative">
+                <Link to={`/animal/${id}/edit-health-record/${record.id}`} className="block">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -169,8 +169,20 @@ const HealthRecordsScreen: React.FC = () => {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              </Link>
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleDeleteClick(record.id);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 text-red-600" />
+                </Button>
+              </Card>
             ))}
           </div>
         )}
