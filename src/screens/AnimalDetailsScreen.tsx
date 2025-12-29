@@ -174,7 +174,7 @@ const AnimalDetailsScreen: React.FC = () => {
               <div className="space-y-3">
                 {recentHealthRecords.map((record) => (
                   <Link key={record.id} to={`/animal/${animal.id}/edit-health-record/${record.id}`}>
-                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer mb-2">
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
