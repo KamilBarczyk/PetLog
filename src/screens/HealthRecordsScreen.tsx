@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Heart, Edit, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Search, Trash2, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -68,6 +68,14 @@ const HealthRecordsScreen: React.FC = () => {
     setRecordToDelete(null);
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   if (!animal) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
@@ -93,17 +101,20 @@ const HealthRecordsScreen: React.FC = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
-          <Link to={`/animal/${id}/add-health-record`}>
-            <Button variant="outline">
-              <Heart className="mr-2 h-4 w-4" />
-              Add Health Record
-            </Button>
-          </Link>
         </div>
         
         <Card className="mb-4">
-          <CardHeader>
-            <CardTitle className="text-2xl">Health Records - {animal.name}</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardTitle className="text-2xl font-bold text-orange-800 flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Health Records
+            </CardTitle>
+            <Link to={`/animal/${id}/add-health-record`}>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Health Record
+              </Button>
+            </Link>
           </CardHeader>
         </Card>
 
@@ -143,43 +154,23 @@ const HealthRecordsScreen: React.FC = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredHealthRecords.map((record) => (
-              <Card key={record.id}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                  <CardTitle>{record.title}</CardTitle>
-                  <div className="flex gap-2">
-                    <Link to={`/animal/${id}/edit-health-record/${record.id}`}>
-                      <Button variant="outline" size="sm">
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit
-                      </Button>
-                    </Link>
-                    <Button 
-                      variant="destructive" 
-                      size="sm"
-                      onClick={() => handleDeleteClick(record.id)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">Date</p>
-                    <p className="text-lg font-semibold">
-                      {new Date(record.date).toLocaleDateString('en-US')}
-                    </p>
-                  </div>
-                  {record.notes && (
-                    <div>
-                      <p className="text-sm text-gray-600 mb-1">Notes</p>
-                      <p className="text-base">{record.notes}</p>
+              <Link key={record.id} to={`/animal/${id}/edit-health-record/${record.id}`}>
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-800">{record.title}</h4>
+                        <p className="text-sm text-gray-600 mt-1">{formatDate(record.date)}</p>
+                        {record.notes && (
+                          <p className="text-sm text-gray-500 mt-2">{record.notes}</p>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         )}
