@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, X } from 'lucide-react';
+import { Save, X, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -8,11 +8,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const EditHealthRecordScreen: React.FC = () => {
   const { id, recordId } = useParams<{ id: string; recordId: string }>();
   const navigate = useNavigate();
-  const { animals, getHealthRecordsByAnimalId, updateHealthRecord } = useApp();
+  const { animals, getHealthRecordsByAnimalId, updateHealthRecord, deleteHealthRecord } = useApp();
 
   const animal = animals.find(a => a.id === id);
   const healthRecords = id ? getHealthRecordsByAnimalId(id) : [];
@@ -21,6 +29,7 @@ const EditHealthRecordScreen: React.FC = () => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Load health record data into form
   useEffect(() => {
@@ -91,6 +100,14 @@ const EditHealthRecordScreen: React.FC = () => {
     }
   };
 
+  const handleDelete = () => {
+    if (recordId) {
+      deleteHealthRecord(recordId);
+      toast.success('Health record deleted successfully!');
+      navigate(`/animal/${id}/health-records`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
@@ -145,10 +162,41 @@ const EditHealthRecordScreen: React.FC = () => {
                   <X className="mr-2 h-4 w-4" />
                   Cancel
                 </Button>
+                <Button 
+                  type="button" 
+                  variant="destructive" 
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                  className="ml-auto"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </Button>
               </div>
             </form>
           </CardContent>
         </Card>
+
+        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete this health record.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsDeleteDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={handleDelete}>
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
