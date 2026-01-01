@@ -24,30 +24,32 @@ export const useApp = () => {
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [animals, setAnimals] = useState<Animal[]>([]);
-  const [healthRecords, setHealthRecords] = useState<HealthRecord[]>([]);
-
-  // Load data from localStorage on mount
-  useEffect(() => {
+  // Initialize state with data from localStorage
+  const [animals, setAnimals] = useState<Animal[]>(() => {
     const savedAnimals = localStorage.getItem('animals');
-    const savedHealthRecords = localStorage.getItem('healthRecords');
-    
     if (savedAnimals) {
       try {
-        setAnimals(JSON.parse(savedAnimals));
+        return JSON.parse(savedAnimals);
       } catch (error) {
         console.error('Error loading animals:', error);
+        return [];
       }
     }
-    
+    return [];
+  });
+
+  const [healthRecords, setHealthRecords] = useState<HealthRecord[]>(() => {
+    const savedHealthRecords = localStorage.getItem('healthRecords');
     if (savedHealthRecords) {
       try {
-        setHealthRecords(JSON.parse(savedHealthRecords));
+        return JSON.parse(savedHealthRecords);
       } catch (error) {
         console.error('Error loading health records:', error);
+        return [];
       }
     }
-  }, []);
+    return [];
+  });
 
   // Save animals to localStorage whenever animals state changes
   useEffect(() => {
