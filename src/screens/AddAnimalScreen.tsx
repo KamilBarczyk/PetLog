@@ -51,9 +51,9 @@ const AddAnimalScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <Card>
+        <Card className="border-l-4 border-l-orange-500">
           <CardHeader>
-            <CardTitle>Add Animal</CardTitle>
+            <CardTitle className="text-2xl font-bold text-orange-800">Add Animal</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
