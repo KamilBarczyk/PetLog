@@ -37,6 +37,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "orange-button": {
+          DEFAULT: "rgb(234, 88, 12)",
+          hover: "rgb(194, 65, 12)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
