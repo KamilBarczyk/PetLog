@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -51,6 +51,12 @@ const AddAnimalScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
+        <div className="mb-4">
+          <Button variant="outline" onClick={() => navigate('/')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
         <Card className="border-l-4 border-l-orange-500">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-orange-800">Add Animal</CardTitle>
@@ -101,14 +107,14 @@ const AddAnimalScreen: React.FC = () => {
                 />
               </div>
               
-              <div className="flex gap-2 pt-4">
-                <Button type="submit">
+              <div className="pt-4">
+                <Button 
+                  type="submit" 
+                  variant="orange"
+                  className="w-full border-0"
+                >
                   <Plus className="mr-2 h-4 w-4" />
-                  Add
-                </Button>
-                <Button type="button" variant="outline" onClick={() => navigate('/')}>
-                  <X className="mr-2 h-4 w-4" />
-                  Cancel
+                  Add Animal
                 </Button>
               </div>
             </form>
