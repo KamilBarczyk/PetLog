@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, X, Trash2 } from 'lucide-react';
+import { Save, X, Trash2, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -111,9 +111,15 @@ const EditHealthRecordScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <Card>
+        <div className="mb-4">
+          <Button variant="outline" onClick={() => id ? navigate(`/animal/${id}/health-records`) : navigate('/')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
+        <Card className="border-l-4 border-l-orange-500">
           <CardHeader>
-            <CardTitle>Edit Health Record - {animal.name}</CardTitle>
+            <CardTitle className="text-2xl font-bold text-orange-800">Edit Health Record - {animal.name}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
