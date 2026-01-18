@@ -51,15 +51,15 @@
 Main screen with animals list and the primary “Add Animal” action.
 ![Animals List](./src/assets/AnimalsListScreen.png)
 
+### **Add Animals**
+
+Form to add a new animal with fields for name, breed, birth date, and weight.
+![Add Animal](./src/assets/AddAnimalScreen.png)
+
 ### **Animal Details**
 
 Details view with actions (edit / delete) and quick access to health records.
 ![Animal Details](./src/assets/AnimalDetailsScreen.png)
-
-### **Health Records**
-
-List of health records with search and actions (add / edit / delete).
-![Health Records](./src/assets/HealthRecordsScreen.png)
 
 ---
 
