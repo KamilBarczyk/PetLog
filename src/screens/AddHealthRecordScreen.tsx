@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Plus, X } from 'lucide-react';
+import { Plus, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useApp } from '../context/AppContext';
 import { Button } from '@/components/ui/button';
@@ -63,9 +63,15 @@ const AddHealthRecordScreen: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <Card>
+        <div className="mb-4">
+          <Button variant="outline" onClick={() => id ? navigate(`/animal/${id}/health-records`) : navigate('/')}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
+        <Card className="border-l-4 border-l-orange-500">
           <CardHeader>
-            <CardTitle>Add Health Record - {animal.name}</CardTitle>
+            <CardTitle className="text-2xl font-bold text-orange-800">Add Health Record - {animal.name}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,18 +107,14 @@ const AddHealthRecordScreen: React.FC = () => {
                 />
               </div>
               
-              <div className="flex gap-2 pt-4">
-                <Button type="submit">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add
-                </Button>
+              <div className="pt-4">
                 <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => id ? navigate(`/animal/${id}/health-records`) : navigate('/')}
+                  type="submit" 
+                  variant="orange"
+                  className="w-full border-0"
                 >
-                  <X className="mr-2 h-4 w-4" />
-                  Cancel
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Health Record
                 </Button>
               </div>
             </form>
