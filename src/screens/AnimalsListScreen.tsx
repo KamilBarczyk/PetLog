@@ -34,7 +34,7 @@ const AnimalsListScreen: React.FC = () => {
           <h1 className="text-3xl font-bold text-orange-800">My Animals</h1>
           {animals.length > 0 && (
             <Link to="/add-animal">
-              <Button variant="outline">
+              <Button variant="orange">
                 <PawPrint className="mr-2 h-4 w-4" />
                 Add Animal
               </Button>
