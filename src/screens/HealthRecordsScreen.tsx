@@ -110,7 +110,7 @@ const HealthRecordsScreen: React.FC = () => {
               Health Records
             </CardTitle>
             <Link to={`/animal/${id}/add-health-record`}>
-              <Button>
+              <Button variant="orange">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Health Record
               </Button>
