@@ -95,7 +95,7 @@ const AnimalDetailsScreen: React.FC = () => {
                 Edit
               </Button>
             </Link>
-            <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)}>
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
             </Button>
@@ -115,7 +115,7 @@ const AnimalDetailsScreen: React.FC = () => {
                 >
                   Cancel
                 </Button>
-                <Button variant="destructive" onClick={handleDelete}>
+                <Button variant="orange" onClick={handleDelete}>
                   Delete
                 </Button>
               </DialogFooter>

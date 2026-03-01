@@ -199,7 +199,7 @@ const HealthRecordsScreen: React.FC = () => {
               <Button variant="outline" onClick={handleDeleteCancel}>
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={handleDeleteConfirm}>
+              <Button variant="orange" onClick={handleDeleteConfirm}>
                 Delete
               </Button>
             </DialogFooter>

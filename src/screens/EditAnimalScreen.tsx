@@ -124,7 +124,7 @@ const EditAnimalScreen: React.FC = () => {
               </div>
               
               <div className="flex gap-2 pt-4">
-                <Button type="submit">
+                <Button type="submit" variant="orange">
                   <Save className="mr-2 h-4 w-4" />
                   Save
                 </Button>

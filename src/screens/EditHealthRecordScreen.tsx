@@ -156,7 +156,7 @@ const EditHealthRecordScreen: React.FC = () => {
               </div>
               
               <div className="flex gap-2 pt-4">
-                <Button type="submit">
+                <Button type="submit" variant="orange">
                   <Save className="mr-2 h-4 w-4" />
                   Save
                 </Button>
@@ -170,7 +170,7 @@ const EditHealthRecordScreen: React.FC = () => {
                 </Button>
                 <Button 
                   type="button" 
-                  variant="destructive" 
+                  variant="outline" 
                   onClick={() => setIsDeleteDialogOpen(true)}
                   className="ml-auto"
                 >
@@ -197,7 +197,7 @@ const EditHealthRecordScreen: React.FC = () => {
               >
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={handleDelete}>
+              <Button variant="orange" onClick={handleDelete}>
                 Delete
               </Button>
             </DialogFooter>
